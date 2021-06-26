@@ -9,6 +9,7 @@
     <title>Document</title>
     <style>
       body{
+          min-width:55rem;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -17,64 +18,87 @@
       }
 
       #title{
-          width:15rem;
+          width:15em;
       }
 
+      main{
+          padding:1rem;
+          margin:0;
+      }
       .title{
-          width:40rem;
-          margin-bottom: .1rem;
-          display: flex;
           justify-content: space-between;
-          border: 1px solid gray;
-          padding: 1rem 3rem; 
-          border-radius: .3rem;
+          align-items: center;
+          display: flex;
+          width:100%;
       }
-
-      p{
-          border-radius: .3rem;
+      textarea,input{
           padding:.6rem 1.5rem;
           font-size: 1rem;
           border:gray 1px solid;
-          width:90%;
-          height:90%;
+      }
+      input,button{
+          margin: .5rem 0;
+      }
+      input{
+        width:30%;
+      }
+      textarea{
+          width:100%;
+          resize: none;
+          margin: 0;
       }
       button{
-          padding:1rem 3rem;
+          font-size: .9rem;
+          padding:.5rem 2rem;
       }
       button:active{
           opacity: .9;
       }
       header{
+          padding: 0;
           display: flex;
           justify-content: center;
           align-items: center;
           position:relative;
-          width:90%;
+          min-width:55rem;
       }
-.date{
-    position: absolute;
-    right:5px;
-}
+    .spans{
+        font-size: .7rem;
+        position: absolute;
+        right:1rem;
+        bottom: 0;
+    }
+
+    span{
+      margin: .2rem;
+    }
+    @media screen and (max-width: 1000px) {
+        body {
+          font-size: 0.7rem;
+        }
+      }
+
     </style>
 </head>
 <body>
     <header>
-        <h1>제목</h1>
-        <span class="date">작성일자</span>
+        <h1>글 세부사항</h1>
+        <div class="spans">
+          <span>작성일자</span>
+          <span>조회수</span>
+        </div>
+        
     </header>
-    
+<main>
     <div class="title">
-        <span>제목</span>
-        <span>닉네임</span>
-        <span>비밀번호</span>
-        <span>조회수</span>
+        <input placeholder="제목" id="title" type="text" value="" disabled></input>
+        <input placeholder="비밀번호" id="pw" type="text" value="" disabled></input>
+        <button>수정하기</button>
+        <button>삭제하기</button>
     </div>
-   <p>글 내용</p>
-   <div class="footer">
-    <button>수정하기</button>
-    <button>삭제하기</button>
+    <textarea id="write" cols="100" rows="50" disabled></textarea>
 
-   </div>
+</main>
    
 
 

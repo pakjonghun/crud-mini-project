@@ -1,166 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
     <script src="jquery-3.5.1.min.js"></script>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        body{
-            padding: 1rem;
-            background-color:#f2f7fa ;
-        }
-        .header{
-            margin-left: 2.7rem;
-        }
-        button{
-            padding:.5em
-        }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 55rem;
+        padding: 1rem;
+      }
+      .header {
+        padding-left: 3rem;
+        max-width: 47rem;
+        margin-right: 2.5rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      button {
+        margin-left: 0.2rem;
+        padding: 0.5em;
+      }
 
-        button:active{
-            opacity: .9;
-        }
+      button:active {
+        opacity: 0.9;
+      }
 
-        .rows{
-            margin:auto;
-            height:80%;
-            width:90%;
-        }
+      .rows {
+        margin: auto;
+        height: 80%;
+        width: 90%;
+      }
 
-        .row{
-            cursor: pointer;
-            padding:1rem ;
-            border-bottom: 1px solid lightgray;
-            display: grid;
-            place-items: center center;
-            grid-template-columns: 1fr 4fr 2fr 2fr 1fr;
-        }
+      .row {
+        cursor: pointer;
+        padding: 1rem;
+        border-bottom: 1px solid lightgray;
+        display: grid;
+        place-items: center center;
+        grid-template-columns: 1fr 4fr 2fr 2fr 1fr;
+      }
 
-        .row:hover{
-            color: white;
-            background-color: #d4d4d4;
-        }
+      .row:hover {
+        color: white;
+        background-color: #d4d4d4;
+      }
+
+      .search_box {
+        border-radius: 0.5rem;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid lightgray;
+        margin-right: 0.5rem;
+        padding: 0 0.2rem;
+      }
+
+      .search_button {
+        font-size: 0.7rem;
+        background-color: gray;
+        border: none;
+      }
+      .select {
+        width: 6em;
+        font-size: 0.9rem;
+        border-left: 1px solid lightgray;
+      }
+      input,
+      select {
+        background-color: inherit;
+        border: none;
+        margin: 0;
+        height: 100%;
+      }
+
+      input {
+        width: 15rem;
+      }
+
+      input:focus {
+        outline: none;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="header">
-        <button id="write">글 작성</button>
-        <button id="date_order">날짜순정렬</button>
-        <button id="writer_order">작성자 순 정렬</button>
-        <button id="title_order">제목 순 정렬</button>
+      <div class="search_box">
+        <input id="search" type="text" />
+        <div class="select">
+          <select id="search_select" class="search_select">
+            <option value="제목" selected>제목</option>
+            <option value="날짜">날짜</option>
+            <option value="작성자">작성자</option>
+          </select>
+        </div>
+        <button class="search_button">검색</button>
+      </div>
+
+      <button id="write">글 작성</button>
+      <button id="date_order">날짜 정렬</button>
+      <button id="writer_order">작성자 정렬</button>
+      <button id="title_order">제목 정렬</button>
     </div>
     <div class="rows">
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">1</div>
-            <div class="title">thjkhjkitle</div>
-            <div class="writer">wriasdfter</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
-        <div class="row">
-            <div class="index">index</div>
-            <div class="title">title</div>
-            <div class="writer">writer</div>
-            <div class="date">date</div>
-            <div class="views">views</div>
-        </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">1</div>
+        <div class="title">thjkhjkitle</div>
+        <div class="writer">wriasdfter</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
+      <div class="row">
+        <div class="index">index</div>
+        <div class="title">title</div>
+        <div class="writer">writer</div>
+        <div class="date">date</div>
+        <div class="views">views</div>
+      </div>
     </div>
-    
-
-
-</body>
+  </body>
 </html>
