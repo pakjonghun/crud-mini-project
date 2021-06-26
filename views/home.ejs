@@ -17,7 +17,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-width: 55rem;
+        min-width: 60rem;
         padding: 1rem;
       }
       .header {
@@ -49,7 +49,7 @@
         border-bottom: 1px solid lightgray;
         display: grid;
         place-items: center center;
-        grid-template-columns: 1fr 4fr 2fr 2fr 1fr;
+        grid-template-columns: 1fr 4fr 2fr 4fr 1fr;
       }
 
       .row:hover {
@@ -85,42 +85,180 @@
         height: 100%;
       }
 
-      input {
-        width: 15rem;
-      }
-
       input:focus {
         outline: none;
       }
+
+      .visible {
+        display: block;
+      }
+
+      .invisible {
+        display: none;
+      }
     </style>
     <script>
+      const TITLE = "title",
+        DATE = "createdAt",
+        WRITER = "writer";
+      let list = [];
       window.addEventListener("DOMContentLoaded", function () {
-        console.log("start");
+        getWrite();
       });
-      function write() {}
+
+      function getWrite() {
+        $("#rows").empty();
+        $.ajax({
+          type: "GET",
+          url: "/view",
+          data: {},
+          success: function (res) {
+            if (!res.result) {
+              alert("글을 읽어오지 못했습니다.");
+            } else {
+              const { data = [] } = res;
+              list = data;
+              paintList(data);
+            }
+          },
+        });
+      }
+
+      function paintList(data) {
+        data.map((item, index) => {
+          const { title, writer, _id, createdAt, comment, view = 0 } = item;
+
+          const date = createdAt.split("-");
+          const newDate = `${date[0]}-${date[1]}-${String(date[2]).substring(
+            0,
+            2
+          )}.`;
+          const list = `
+                <div class="row" onClick="location.href='/detail/:id'">
+                  <div class="index">${index + 1}</div>
+                  <div class="title">${
+                    title.length >= 11 ? `${title.substring(0, 10)}...` : title
+                  }</div>
+                  <div class="writer">${
+                    writer.length > 11
+                      ? `${writer.substring(0, 10)}...`
+                      : writer
+                  }</div>
+                  <div class="date">${newDate}</div>
+                  <div class="views">조회수 ${view}</div>
+                </div>
+                `;
+          $("#rows").append(list);
+        });
+      }
+
+      function changeDateMode() {
+        const selected = $("#search_select").val();
+        if (selected === "createdAt") {
+          $(".date").toggleClass("invisible");
+          $(".search").toggleClass("invisible");
+        } else {
+          $(".date").addClass("invisible");
+          $(".search").removeClass("invisible");
+        }
+      }
+
+      function sortList(itemName, isUp) {
+        if (isUp) {
+          list = list.sort(function (a, b) {
+            if (a[itemName] < b[itemName]) return 1;
+            if (a[itemName] > b[itemName]) return -1;
+            if (a[itemName] === b[itemName]) return 0;
+          });
+        } else {
+          list = list.sort(function (a, b) {
+            if (a[itemName] > b[itemName]) return 1;
+            if (a[itemName] < b[itemName]) return -1;
+            if (a[itemName] === b[itemName]) return 0;
+          });
+        }
+      }
+
+      function handleSortList(signal) {
+        $("#rows").empty();
+        const itemName = signal.toLowerCase();
+        switch (signal) {
+          case TITLE:
+            const titleItem = $("#title_order");
+            const titleIsUp = titleItem.hasClass("1");
+            sortList(signal, titleIsUp);
+            paintList(list);
+            titleItem.toggleClass("1");
+            break;
+
+          case WRITER:
+            const writerItem = $("#writer_order");
+            const writerIsUp = writerItem.hasClass("1");
+            sortList(signal, writerIsUp);
+            paintList(list);
+            writerItem.toggleClass("1");
+            break;
+
+          case DATE:
+            const dateItem = $("#date_order");
+            const dateIsUp = dateItem.hasClass("1");
+            sortList(signal, dateIsUp);
+            paintList(list);
+            dateItem.toggleClass("1");
+            break;
+        }
+      }
+
+      function search() {
+        const selected = $("#search_select").val();
+        const term =
+          selected !== "createdAt" ? $("#search").val() : $(".date").val();
+
+        $.ajax({
+          type: "GET",
+          url: `/search/${selected}`,
+          data: { selected, term },
+          success: function (res) {
+            const isSuccess = res["result"];
+            if (!isSuccess) {
+              alert("검색에 실패했습니다.");
+            } else {
+              $("#rows").empty();
+              list = res["data"];
+              paintList(res["data"]);
+            }
+          },
+        });
+      }
     </script>
   </head>
   <body>
     <div class="header">
       <div class="search_box">
-        <input id="search" type="text" />
-        <div class="select">
+        <input id="search" class="search" type="text" />
+        <input type="date" class="date invisible" />
+
+        <div class="select" onchange="changeDateMode()">
           <select id="search_select" class="search_select">
-            <option value="제목" selected>제목</option>
-            <option value="날짜">날짜</option>
-            <option value="작성자">작성자</option>
+            <option value="title" selected>제목</option>
+            <option value="createdAt">날짜</option>
+            <option value="writer">작성자</option>
           </select>
         </div>
-        <button class="search_button">검색</button>
+        <button class="search_button" onclick="search()">검색</button>
       </div>
 
       <button id="write" onclick="location.href = '/write'">글 작성</button>
-      <button id="date_order">날짜 정렬</button>
-      <button id="writer_order">작성자 정렬</button>
-      <button id="title_order">제목 정렬</button>
+      <button id="date_order" onclick="handleSortList(DATE)">날짜 정렬</button>
+      <button id="writer_order" onclick="handleSortList(WRITER)">
+        작성자 정렬
+      </button>
+      <button id="title_order" onclick="handleSortList(TITLE)">
+        제목 정렬
+      </button>
     </div>
-    <div class="rows" onClick="location.href='/detail/:id'">
-      <div class="row">
+    <div class="rows" id="rows">
+      <div class="row" onClick="location.href='/detail/:id'">
         <div class="index">index</div>
         <div class="title">title</div>
         <div class="writer">writer</div>

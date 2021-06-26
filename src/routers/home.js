@@ -9,10 +9,4 @@ const viewRouter = express.Router();
 
 viewRouter.get("/", view);
 
-viewRouter.get("/title", viewTitle);
-
-viewRouter.get("/createdAt", viewCreatedAt);
-
-viewRouter.get("/writer", viewWriter);
-
 export default viewRouter;

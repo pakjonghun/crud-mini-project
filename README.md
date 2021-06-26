@@ -20,9 +20,9 @@
 ---
 
 1. /view - get - 모든 글 조회페이지
-2. /view/title - get - 제목순 정렬
-3. /view/createdAt - get - 날짜순 정렬
-4. /view/writer - get - 작성자순 정렬
+<!-- 2. /view/title - get - 제목순 정렬
+2. /view/createdAt - get - 날짜순 정렬
+3. /view/writer - get - 작성자순 정렬 -->
 
 ---
 

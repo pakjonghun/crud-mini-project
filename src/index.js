@@ -5,6 +5,7 @@ import editRouter from "./routers/editRouter";
 import viewRouter from "./routers/home";
 import detailRouter from "./routers/detail";
 import writerRouter from "./routers/writer";
+import searchRouter from "./routers/search";
 
 const app = express();
 const port = process.env.PORT;
@@ -14,9 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use("/", viewRouter);
+app.get("/", (req, res) => res.render("home"));
+app.use("/view", viewRouter);
 app.use("/edit", editRouter);
 app.use("/write", writerRouter);
 app.use("/detail", detailRouter);
+app.use("/search", searchRouter);
 
 app.listen(port, () => console.log(`Server is running on ${port}`));
