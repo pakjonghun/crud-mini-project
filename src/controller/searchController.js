@@ -29,8 +29,7 @@ export const dateSearch = async (req, res) => {
         $gte: new Date(`${year}-${month}-${day}T00:00:00.000Z`),
         $lt: new Date(`${year}-${month}-${day}T23:59:59.999Z`),
       },
-    });
-    console.log(data);
+    }).sort({ createdAt: -1 });
     res.json({ result: 1, data });
   } catch (e) {
     res.json({ result: 0 });

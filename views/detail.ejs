@@ -1,123 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script
-    src="https://code.jquery.com/jquery-3.5.1.js"
-    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-    crossorigin="anonymous"
-  ></script>
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <style>
-      body{
-          min-width:55rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 1rem;
-          height:100vh;
+      body {
+        min-width: 55rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem;
+        height: 100vh;
       }
 
-      #title{
-          width:15em;
+      #title {
+        width: 15em;
       }
 
-      main{
-          padding:1rem;
-          margin:0;
+      main {
+        padding: 1rem;
+        margin: 0;
       }
-      .title{
-          justify-content: space-between;
-          align-items: center;
-          display: flex;
-          width:100%;
+      .title {
+        font-size: 0.9rem;
+        display: flex;
       }
-      textarea,input{
-          padding:.6rem 1.5rem;
-          font-size: 1rem;
-          border:gray 1px solid;
+      textarea,
+      input {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        border: gray 1px solid;
       }
-      input,button{
-          margin: .5rem 0;
+      input,
+      button {
+        margin: 0.5rem 0;
       }
-      input{
-        width:30%;
+      textarea {
+        width: 100%;
+        resize: none;
+        margin: 0;
       }
-      textarea{
-          width:100%;
-          resize: none;
-          margin: 0;
+      button {
+        font-size: 0.9rem;
+        padding: 0.5rem 2rem;
       }
-      button{
-          font-size: .9rem;
-          padding:.5rem 2rem;
+      button:active {
+        opacity: 0.9;
       }
-      button:active{
-          opacity: .9;
+      header {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        min-width: 55rem;
       }
-      header{
-          padding: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position:relative;
-          min-width:55rem;
-      }
-    .spans{
-        font-size: .7rem;
+      .spans {
+        font-size: 0.7rem;
         position: absolute;
-        right:1rem;
+        right: 1rem;
         bottom: 0;
-    }
+      }
 
-    span{
-      margin: .2rem;
-    }
-    @media screen and (max-width: 1000px) {
+      span {
+        margin: 0.2rem;
+      }
+      @media screen and (max-width: 1000px) {
         body {
           font-size: 0.7rem;
         }
       }
 
+      * {
+        box-sizing: border-box;
+      }
+
+      .title {
+        padding: 0.1rem 0.9rem;
+        justify-content: space-between;
+        border-radius: 0.2rem;
+        border: 1px solid gray;
+        margin-bottom: 0.5rem;
+      }
+
+      .title_header {
+        width: 60%;
+      }
     </style>
     <script>
-        function test(){
-            $.ajax({
-            type: "POST",
-            url: `/write`,
-            data: {},
-            success: function (response) {
-                console.log(response);
-            },
-            });
-            
-        }
+      const url = document.location.href.split("/");
+      const id = url[url.length - 1];
+      function edit() {
+        window.location.href = `/edit/${id}`;
+      }
+
+      function remove() {
+        $.ajax({
+          type: "DELETE",
+          url: `/remove/${id}`,
+          data: {},
+          success: function (res) {
+            const { result, msg = "" } = res;
+            if (result) {
+              alert(msg);
+              window.location.href = "/";
+            } else {
+              alert(msg);
+            }
+          },
+        });
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>글 세부사항</h1>
-        <div class="spans">
-          <span>작성일자</span>
-          <span>조회수</span>
-        </div>
-        
+      <h1>글 세부사항</h1>
+      <div class="spans">
+        <span> 작성일 : <%=date %></span>
+        <span><%=data.view%></span>
+      </div>
     </header>
-<main>
-    <div class="title">
-        <input placeholder="제목" id="title" type="text"disabled></input>
-        <input placeholder="비밀번호" id="pw" type="text"  disabled></input>
-        <button onclick="test()">수정하기</button>
-        <button>삭제하기</button>
-    </div>
-    <textarea id="write" cols="100" rows="50" disabled></textarea>
-
-</main>
-   
-
-
-</body>
+    <main>
+      <div class="title">
+        <h3 class="title_header">제목 : <%=data.title%></h3>
+        <button onclick="edit()">수정하기</button>
+        <button onclick="remove()">삭제하기</button>
+      </div>
+      <textarea id="write" cols="100" rows="50" disabled>
+<%=data.comment%></textarea
+      >
+    </main>
+  </body>
 </html>

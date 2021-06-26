@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <script src="jquery-3.5.1.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -76,23 +80,49 @@
     
     <script>
         function edit(){
-            window.location.href="/detail/:id";        
+            const url = window.location.href.split("/");
+            const id = url[url.length-1];
+
+            let password = $('#id').val();
+            if(!password){
+                password = prompt('비밀번호를 입력하세요','');
+            }else{
+
+                const comment = $('#write').val();
+                const title = $('#title').val();
+                const writer = $('#id').val();
+
+                $.ajax({
+                    type:'PATCH',
+                    url:`/edit/${id}`,
+                    data:{password,comment,title,writer},
+                    success:function(res){
+                        const {result,msg=""}=res;
+                        if(!result){
+                            alert(msg);
+                        }else{
+                            window.location.href=`/detail/${id}`
+                        }
+                    }
+                })
+            }
+            
         }
     </script>
 </head>
 <body>
     <header>
         <h1>글 편집</h1>
-        <span>오늘날짜</span>
+        <span>작성일 : <%=date%></span>
     </header>
 <main>
     <div class="title">
-        <input placeholder="제목" id="title" type="text" value=""></input>
-        <input placeholder="닉네임" id="id" type="text" value=""></input>
-        <input placeholder="비밀번호" id="id" type="password" value=""></input>
+        <input placeholder="제목" id="title" type="text" value="<%=data['title']%>"></input>
+        <input placeholder="닉네임" id="id" type="text" value="<%=data['writer']%>"></input>
+        <input placeholder="비밀번호" id="pw" type="password" ></input>
         <button onclick="edit()">수정완료</button>
     </div>
-    <textarea id="write" cols="100" rows="50"></textarea>
+    <textarea id="write" cols="100" rows="50" ><%=data['comment']%></textarea>
 
 </main>
    

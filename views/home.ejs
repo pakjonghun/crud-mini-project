@@ -134,7 +134,7 @@
             2
           )}.`;
           const list = `
-                <div class="row" onClick="location.href='/detail/:id'">
+                <div class="row" onClick="location.href='/detail/${_id}'">
                   <div class="index">${index + 1}</div>
                   <div class="title">${
                     title.length >= 11 ? `${title.substring(0, 10)}...` : title
@@ -229,6 +229,10 @@
             }
           },
         });
+      }
+
+      function goDetail() {
+        window.location.href = `/deatil/${_id}`;
       }
     </script>
   </head>

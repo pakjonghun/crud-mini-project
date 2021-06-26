@@ -1,9 +1,9 @@
-import express from 'express';
-import { detail, remove } from '../controller/detailController';
+import express from "express";
+import { detail, remove } from "../controller/detailController";
 const detailRouter = express.Router();
 
-detailRouter.get('/:id',detail);
+detailRouter.get("/:_id", detail);
 
-detailRouter.delete('/remove/:id',remove);
+detailRouter.delete("/remove/:id", remove);
 
 export default detailRouter;
