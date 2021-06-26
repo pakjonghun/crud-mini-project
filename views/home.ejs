@@ -44,6 +44,7 @@
       }
 
       .row {
+        z-index: 5;
         cursor: pointer;
         padding: 1rem;
         border-bottom: 1px solid lightgray;
@@ -124,31 +125,55 @@
         });
       }
 
+      function goToDetail(e) {
+        const classes = e.target.className.split(" ");
+        const id = classes[1];
+
+        $.ajax({
+          type: "POST",
+          data: { id },
+          url: `/detail`,
+          success: function (response) {
+            list.forEach((item) => {
+              if (item["_id"] === id) {
+                item["views"] += 1;
+              }
+              $(".rows").empty();
+              paintList(list);
+            });
+            window.location.href = `/detail/${id}`;
+          },
+        });
+      }
+
       function paintList(data) {
         data.map((item, index) => {
-          const { title, writer, _id, createdAt, comment, view = 0 } = item;
+          const { title, writer, _id, createdAt, comment, views = 0 } = item;
 
           const date = createdAt.split("-");
           const newDate = `${date[0]}-${date[1]}-${String(date[2]).substring(
             0,
             2
           )}.`;
+
           const list = `
-                <div class="row" onClick="location.href='/detail/${_id}'">
-                  <div class="index">${index + 1}</div>
-                  <div class="title">${
-                    title.length >= 11 ? `${title.substring(0, 10)}...` : title
-                  }</div>
-                  <div class="writer">${
-                    writer.length > 11
-                      ? `${writer.substring(0, 10)}...`
-                      : writer
-                  }</div>
-                  <div class="date">${newDate}</div>
-                  <div class="views">조회수 ${view}</div>
-                </div>
+                  <div class="index ${_id}">${index + 1}</div>
+                  <div class="title ${_id}">${
+            title.length >= 11 ? `${title.substring(0, 10)}...` : title
+          }</div>
+                  <div class="writer ${_id}">${
+            writer.length > 11 ? `${writer.substring(0, 10)}...` : writer
+          }</div>
+                  <div class="date ${_id}">${newDate}</div>
+                  <div class="views ${_id}">조회수 ${views}</div>
                 `;
-          $("#rows").append(list);
+
+          const rows = document.querySelector(".rows");
+          const row = document.createElement("div");
+          row.className = `row ${_id}`;
+          row.addEventListener("click", goToDetail);
+          row.innerHTML = list;
+          rows.appendChild(row);
         });
       }
 
@@ -230,10 +255,6 @@
           },
         });
       }
-
-      function goDetail() {
-        window.location.href = `/deatil/${_id}`;
-      }
     </script>
   </head>
   <body>
@@ -262,7 +283,7 @@
       </button>
     </div>
     <div class="rows" id="rows">
-      <div class="row" onClick="location.href='/detail/:id'">
+      <div class="row" onClick="goToDetail()">
         <div class="index">index</div>
         <div class="title">title</div>
         <div class="writer">writer</div>

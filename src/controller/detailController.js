@@ -18,6 +18,21 @@ export const detail = async (req, res) => {
   }
 };
 
+export const postDetail = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const data = await Comment.find({ _id: id });
+
+    if (data.length) {
+      await Comment.updateOne({ _id: id }, { $inc: { views: 1 } });
+      res.json({ result: 0 });
+    }
+  } catch (e) {
+    console.log(e);
+    res.json({ result: 1 });
+  }
+};
+
 export const remove = async (req, res) => {
   try {
     const { id } = req.params;
