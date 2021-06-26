@@ -3,9 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
-    <script src="jquery-3.5.1.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <title>Document</title>
     <style>
       body {
@@ -89,6 +93,12 @@
         outline: none;
       }
     </style>
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        console.log("start");
+      });
+      function write() {}
+    </script>
   </head>
   <body>
     <div class="header">
@@ -104,110 +114,12 @@
         <button class="search_button">검색</button>
       </div>
 
-      <button id="write">글 작성</button>
+      <button id="write" onclick="location.href = '/write'">글 작성</button>
       <button id="date_order">날짜 정렬</button>
       <button id="writer_order">작성자 정렬</button>
       <button id="title_order">제목 정렬</button>
     </div>
-    <div class="rows">
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">1</div>
-        <div class="title">thjkhjkitle</div>
-        <div class="writer">wriasdfter</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
-      <div class="row">
-        <div class="index">index</div>
-        <div class="title">title</div>
-        <div class="writer">writer</div>
-        <div class="date">date</div>
-        <div class="views">views</div>
-      </div>
+    <div class="rows" onClick="location.href='/detail/:id'">
       <div class="row">
         <div class="index">index</div>
         <div class="title">title</div>

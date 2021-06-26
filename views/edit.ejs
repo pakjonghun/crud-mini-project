@@ -73,6 +73,12 @@
       }
 
     </style>
+    
+    <script>
+        function edit(){
+            window.location.href="/detail/:id";        
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -84,7 +90,7 @@
         <input placeholder="제목" id="title" type="text" value=""></input>
         <input placeholder="닉네임" id="id" type="text" value=""></input>
         <input placeholder="비밀번호" id="id" type="password" value=""></input>
-        <button>수정완료</button>
+        <button onclick="edit()">수정완료</button>
     </div>
     <textarea id="write" cols="100" rows="50"></textarea>
 

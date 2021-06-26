@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "./db";
 import express from "express";
 import editRouter from "./routers/editRouter";
 import viewRouter from "./routers/home";
