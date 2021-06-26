@@ -103,10 +103,12 @@
       }
 
       function remove() {
+        const password = prompt("비밀번호를 입력하세요", "");
+
         $.ajax({
           type: "DELETE",
-          url: `/remove/${id}`,
-          data: {},
+          url: `/detail/remove/${id}`,
+          data: { password },
           success: function (res) {
             const { result, msg = "" } = res;
             if (result) {
