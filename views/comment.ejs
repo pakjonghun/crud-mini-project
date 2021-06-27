@@ -1,0 +1,208 @@
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    padding:.2rem 1rem .2rem .1rem;
+    border: 1px solid lightgray;
+  }
+  input {
+    border: 1px solid lightgray;
+    margin-left: 1rem;
+  }
+
+  input[type*="submit"] {
+    background-color: lightgray;
+  }
+  input[type*="submit"]:hover {
+    opacity: 0.9;
+    border: 1px solid black;
+  }
+
+  input[type*="submit"]:active {
+    opacity: 0.8;
+    border: 1px solid gray;
+  }
+
+  input[class*="writer"]{
+      width:7rem;
+  }
+
+  input[id*="comment"]{
+      width:25rem
+  }
+
+  .fix{
+      justify-content: center;
+      flex-direction: column;
+      width:41.1rem;
+      margin-top: .2rem;
+      border: 1px solid lightgray;
+  }
+
+  .content{
+      width:15rem;
+  }
+
+  .name{
+      margin-right: 1rem;
+      overflow: hidden;
+      border: none;
+      width:9rem;
+  }
+  .inner_container{
+      display: flex;
+      justify-content: space-between;
+  }
+</style>
+
+<div class="container">
+  <input class="writer" type="text" id="writer" placeholder="닉네임"></input>
+  <input id="comment" type="text" placeholder="댓글내용" />
+  <input id="register" type="submit" value="등록" />
+</div>
+<div class="container fix" id="lists">
+    <div class="inner_container">
+    <h3 class="name">닉네임</h3>
+    <h3  class="content">커멘트</h3>
+    <input class="edit" type="submit" value="수정">
+    <input class="del" type="submit" value="삭제">
+</div>
+</div>
+
+<script>
+  const comment = document.querySelector("#comment");
+  const register = document.querySelector("#register");
+  const writer = document.querySelector("#writer");
+  const content = document.querySelector('.content');
+  const name = document.querySelector('.name');
+  const modify = document.querySelector('.edit');
+  const del = document.querySelector('.del');
+  const lists = document.querySelector('#lists');
+
+
+function getIdAndItem(e){
+  const {data:{newComment}}=data;
+   const clases= e.target.classList
+   const id = clases[clases.length-1];
+   if(newComment.length){
+     const item = newComment.find(item=>item['_id']===id);
+      return [item,id];
+
+   }
+   return [[],id]
+}
+
+async function editComment(e){
+
+  const [{test=""},id]=getIdAndItem(e);
+
+let edited = prompt('수정할 내용을 입력하세요',test||'')
+if(edited){
+  const {status} = await fetch(`/api/comment/edit/${id}`,{
+     method:'PATCH',
+     headers:{
+       "Content-Type":"application/json",
+     },
+     body:JSON.stringify({edited}),
+   })
+
+   if(status===201){
+     const [item,id] = getIdAndItem(e);
+     item['test']=edited;
+     commentPaint(data);
+   }
+}
+}
+
+
+async function delComment(e){
+    const [item,id] = getIdAndItem(e)
+    let isSure = confirm('정말로 삭제 하시겠습니까?');
+    if(isSure){                  
+   const {status}=  await fetch(`/api/comment/remove/${id}`,{
+        method:"DELETE",
+      })
+      
+      if(status===201){
+        const [item,id]=getIdAndItem(e);
+        const {data:{newComment}}=data;
+        const newOne=newComment.find(item=>item['id']!==id)
+
+        data.data.newComment = newOne;
+        console.log(newOne)
+        commentPaint(data)
+        
+      }
+    }
+
+}
+
+
+const b = 1
+function commentPaint(data) {
+    $('#lists').empty();
+        const { newComment=[] } = data["data"];
+        if(newComment.length){
+          newComment.map(item=>{
+           const {_id:id,writer,test,write}=item;
+          fakePrepend(id,writer,test,write)
+        })
+      }  
+        }
+        
+
+
+      function fakePrepend(id="temp",writer,test,write=""){
+          const contentWriter = document.createElement('h3');
+          contentWriter.className="name";
+          contentWriter.innerText=writer;
+          const contentComment = document.createElement('h3');
+          contentComment.className="content";
+          contentComment.innerText=test;
+          const contentEdit = document.createElement('input');
+          contentEdit.className="editComment";
+          contentEdit.setAttribute('type','submit');
+          contentEdit.addEventListener("click",editComment);
+          contentEdit.value="수정"
+          contentEdit.classList.add(id)
+          const contentDelete = document.createElement('input');
+          contentDelete.className="delComment";
+          contentDelete.setAttribute('type','submit');
+          contentDelete.setAttribute('value','삭제')
+          contentDelete.addEventListener("click",delComment);
+          contentDelete.classList.add(id);
+          const inner_container = document.createElement('div');
+          inner_container.className="inner_container";
+          inner_container.append(contentWriter,contentComment,contentEdit,contentDelete);
+          lists.prepend(inner_container);
+        }
+
+  async function registerComment() {
+    const commentVal = comment.value;
+    const commentWriter = writer.value;
+    if(!commentVal.length || !commentWriter.length){
+        alert("닉네임, 커멘트 내용을 모두 채워주세요.")
+        return;
+    }else{
+        const {status} = await fetch(`/api/comment/register/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentVal,commentWriter }),
+    });
+
+    if(status===200){
+        fakePrepend("temp",commentWriter,commentVal,"");
+    }
+    }
+    comment.value="";
+  }
+  function painting(data){
+  }
+
+
+
+  register.addEventListener("click", registerComment);
+</script>

@@ -2,19 +2,20 @@ import Comment from "../schemas/comments";
 import bcrypt from "bcrypt";
 
 export const detail = async (req, res) => {
+  res.render("detail");
+};
+
+export const detailContent = async (req, res) => {
   try {
     const { _id } = req.params;
-    const data = await Comment.find({ _id });
-
-    if (data.length) {
-      const item = data[0];
-      const date = item.createdAt;
-      const newDate = String(date).substring(0, 10);
-      res.render("detail", { data: item, date: newDate });
+    const data = await Comment.findById(_id).populate("newComment");
+    console.log(data);
+    if (data) {
+      res.json({ result: 1, data });
     }
   } catch (e) {
     console.log(e);
-    res.json();
+    res.sendStatus(404);
   }
 };
 

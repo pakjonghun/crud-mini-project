@@ -96,8 +96,31 @@
       }
     </style>
     <script>
+      let data = {};
       const url = document.location.href.split("/");
       const id = url[url.length - 1];
+      window.addEventListener("DOMContentLoaded", function () {
+        $.ajax({
+          type: "GET",
+          url: `/detail/${id}/content`,
+          data: {},
+          success: function (res) {
+            data = res;
+            paint(res);
+            commentPaint(res);
+          },
+        });
+      });
+
+      function paint(data) {
+        const { title, views, writer, comment, createdAt } = data["data"];
+        const date = createdAt.substring(0, 10);
+        $("#view").text(`조회수 : ${views}`);
+        $("#date").text(`작성일 : ${date}  `);
+        $("#title").text(title);
+        $("#write").text(comment);
+      }
+
       function edit() {
         window.location.href = `/edit/${id}`;
       }
@@ -126,19 +149,18 @@
     <header>
       <h1>글 세부사항</h1>
       <div class="spans">
-        <span> 작성일 : <%=date %></span>
-        <span>조회수 : <%=data.views%></span>
+        <span id="date"> </span>
+        <span id="view"></span>
       </div>
     </header>
     <main>
       <div class="title">
-        <h3 class="title_header">제목 : <%=data.title%></h3>
+        <h3 class="title_header" id="title"></h3>
         <button onclick="edit()">수정하기</button>
         <button onclick="remove()">삭제하기</button>
       </div>
-      <textarea id="write" cols="100" rows="50" disabled>
-<%=data.comment%></textarea
-      >
+      <textarea id="write" cols="100" rows="50" disabled></textarea>
     </main>
+    <%- include('./comment')%>
   </body>
 </html>

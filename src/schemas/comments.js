@@ -24,6 +24,13 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
+  newComment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "NewComment",
+    },
+  ],
 });
 
 export default mongoose.model("Comment", commentSchema);
