@@ -9,7 +9,6 @@ export const detailContent = async (req, res) => {
   try {
     const { _id } = req.params;
     const data = await Comment.findById(_id).populate("newComment");
-    console.log(data);
     if (data) {
       res.json({ result: 1, data });
     }
@@ -43,7 +42,6 @@ export const remove = async (req, res) => {
     if (isExist.length) {
       const oldPassword = isExist[0]["password"];
       const isPasswordCorrect = await bcrypt.compare(password, oldPassword);
-      console.log(isPasswordCorrect);
       if (isPasswordCorrect) {
         await Comment.deleteOne({ _id: id });
         res.json({ result: 1, msg: "글이 성공적으로 삭제되었습니다." });

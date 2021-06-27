@@ -18,7 +18,6 @@ export const registerComment = async (req, res) => {
           _id,
         },
       });
-      console.log(writeIsExist, writeIsExist.newComment);
       writeIsExist.newComment.push(abc._id);
       writeIsExist.save();
     }
