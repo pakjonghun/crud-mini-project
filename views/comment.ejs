@@ -90,14 +90,13 @@ function getIdAndItem(e){
       return [item,id];
 
    }
-   return [[],id]
+   return [0,id]
 }
 
 async function editComment(e){
+  const [{test=e.target.previousSibling.innerText},id]=getIdAndItem(e);
 
-  const [{test=""},id]=getIdAndItem(e);
-
-let edited = prompt('수정할 내용을 입력하세요',test||'')
+  let edited = prompt('수정할 내용을 입력하세요',test||'')
 if(edited){
   const {status} = await fetch(`/api/comment/edit/${id}`,{
      method:'PATCH',
@@ -125,12 +124,14 @@ async function delComment(e){
       })
       
       if(status===201){
-        const [item,id]=getIdAndItem(e);
-        const {data:{newComment}}=data;
-        const newOne=newComment.find(item=>item['id']!==id)
 
-        data.data.newComment = newOne;
-        console.log(newOne)
+        const {data:{newComment=0}}=data;
+        if(!newComment){
+           commentPaint(data);
+           return 
+        }
+        const filtered = newComment.filter(item=>item._id!==id);
+        data.data.newComment = filtered;
         commentPaint(data)
         
       }
@@ -194,7 +195,7 @@ function commentPaint(data) {
     });
 
     if(status===200){
-        fakePrepend("temp",commentWriter,commentVal,"");
+      location.reload();
     }
     }
     comment.value="";
