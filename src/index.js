@@ -7,6 +7,7 @@ import detailRouter from "./routers/detail";
 import writerRouter from "./routers/writer";
 import searchRouter from "./routers/search";
 import commentRouter from "./routers/commentRouter";
+import reCommentRouter from "./routers/reCommentRouter";
 
 const app = express();
 const port = process.env.PORT;
@@ -24,5 +25,6 @@ app.use("/write", writerRouter);
 app.use("/detail", detailRouter);
 app.use("/search", searchRouter);
 app.use("/api", commentRouter);
+app.use("/recomment", reCommentRouter);
 
 app.listen(port, () => console.log(`Server is running on ${port}`));

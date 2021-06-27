@@ -33,6 +33,7 @@
   }
 
   .fix{
+    align-items: flex-end;
       justify-content: center;
       flex-direction: column;
       width:41.1rem;
@@ -54,6 +55,29 @@
       display: flex;
       justify-content: space-between;
   }
+  .recomment_container{
+    font-size: .6rem;
+    width:70%;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid lightgray;
+  }
+  .recomment_edit,.recomment_remove{
+    font-size: .6rem;
+  }
+
+  .recomment_comment{
+    width:7rem;
+    margin-left: .8rem;
+  }
+  .recomment_editm.recomment_remove{
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .recomment_writer{
+    justify-self: flex-start;
+    text-align: start;
+  }
 </style>
 
 <div class="container">
@@ -63,11 +87,18 @@
 </div>
 <div class="container fix" id="lists">
     <div class="inner_container">
-    <h3 class="name">닉네임</h3>
-    <h3  class="content">커멘트</h3>
-    <input class="edit" type="submit" value="수정">
-    <input class="del" type="submit" value="삭제">
-</div>
+      <h3 class="name">닉네임</h3>
+      <h3  class="content">커멘트</h3>
+      <input class="edit" type="submit" value="수정">
+      <input class="del" type="submit" value="삭제">
+    </div>
+    <div class="inner_container recomment_container">
+      <h3 class="recomment_writer">닉네임</h3>
+      <h3  class="recomment_comment">커멘트</h3>
+      <input class="recomment_edit" type="submit" value="수정">
+      <input class="recomment_remove" type="submit" value="삭제">
+    </div>
+
 </div>
 
 <script>
@@ -206,4 +237,11 @@ function commentPaint(data) {
 
 
   register.addEventListener("click", registerComment);
+
+
+
+  function reCommentAdd(){
+    
+  }
+
 </script>

@@ -24,6 +24,7 @@ export const patchEdit = async (req, res) => {
         password,
         isExist[0].password
       );
+      console.log(password, isPasswordCorrect);
       if (isPasswordCorrect) {
         const newWrite = await Comment.updateOne(
           { _id },
